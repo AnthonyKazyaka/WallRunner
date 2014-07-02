@@ -16,9 +16,15 @@ public class PlayerController : MonoBehaviour
 
     private float _currentForwardSpeed;
     private float _currentLateralSpeed = 0.0f;
-    private const float MAX_LATERAL_SPEED = 7.50f;
 
+	[SerializeField]
+    private const float MAX_LATERAL_SPEED = 20.50f;
+
+	[SerializeField]
     private float _decelerationRate = .5f;
+
+	[SerializeField]
+	private float _jumpImpulse = 5f;
     
     private Transform previousTransform;
 
@@ -85,7 +91,7 @@ public class PlayerController : MonoBehaviour
             _canUseDoubleJump = false;
             if (!_isWallRunning)
 	        {
-	            gameObject.rigidbody.AddForce(new Vector3(0, 5, 0), ForceMode.Impulse);
+	            gameObject.rigidbody.AddForce(new Vector3(0, _jumpImpulse, 0), ForceMode.Impulse);
 	        }
 	        if (_isWallRunning)
 	        {
@@ -95,7 +101,7 @@ public class PlayerController : MonoBehaviour
 	    if (!_isAirborne && Input.GetKeyDown(KeyCode.Space))
 	    {
 	        _isAirborne = true;
-	        gameObject.rigidbody.AddForce(new Vector3(0, 5, 0), ForceMode.Impulse);
+	        gameObject.rigidbody.AddForce(new Vector3(0, _jumpImpulse, 0), ForceMode.Impulse);
 	    }
 
 
@@ -112,7 +118,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
-	    Vector3 movementVelocity = new Vector3(_currentLateralSpeed * _currentForwardSpeed, 0.0f, _currentForwardSpeed);
+	    Vector3 movementVelocity = new Vector3(_currentLateralSpeed, 0.0f, _currentForwardSpeed);
 
         gameObject.rigidbody.MovePosition(gameObject.transform.position + movementVelocity * Time.deltaTime);
 
