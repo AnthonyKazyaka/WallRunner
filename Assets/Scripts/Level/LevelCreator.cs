@@ -27,7 +27,7 @@ public class LevelCreator : MonoBehaviour {
 			_instances.Remove(collider.gameObject.transform.parent.gameObject);
 			GameObject.Destroy(collider.gameObject.transform.parent.gameObject);
 
-			GameObject instance = (GameObject)GameObject.Instantiate(_prefab, _instances.Last().transform.position + new Vector3(0,0,90), Quaternion.identity);
+			GameObject instance = (GameObject)GameObject.Instantiate(_prefab, _instances.Last().transform.position + new Vector3(0,0,85), Quaternion.identity);
 
 			_instances.Add(instance);
 		}
