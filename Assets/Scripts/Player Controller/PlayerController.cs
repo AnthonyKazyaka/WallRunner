@@ -196,6 +196,12 @@ public class PlayerController : MonoBehaviour
 		}
 		else
 			_isAirborne = false;
+
+		if (otherObject.gameObject.tag == "Wall")
+		{
+			_wallLeaveTimerActive = false;
+			_wallLeaveTimer = 0;
+		}
         _canUseDoubleJump = true;
 
        
