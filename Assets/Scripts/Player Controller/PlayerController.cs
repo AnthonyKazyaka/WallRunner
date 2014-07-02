@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
             _canUseDoubleJump = false;
             if (!_isWallRunning)
 	        {
-	            gameObject.rigidbody.AddForce(new Vector3(0, _jumpImpulse, 0), ForceMode.Impulse);
+				StartCoroutine("Jump");
 	        }
 	        if (_isWallRunning)
 	        {
@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
 	    if (!_isAirborne && Input.GetKeyDown(KeyCode.Space))
 	    {
 	        _isAirborne = true;
-	        gameObject.rigidbody.AddForce(new Vector3(0, _jumpImpulse, 0), ForceMode.Impulse);
+			StartCoroutine("Jump");
 	    }
 
 
@@ -123,6 +123,27 @@ public class PlayerController : MonoBehaviour
         gameObject.rigidbody.MovePosition(gameObject.transform.position + movementVelocity * Time.deltaTime);
 
 	    previousTransform = gameObject.transform;
+	}
+
+	/// <summary>
+	/// Jump slowly for first few milliseconds, then ramp up
+	/// </summary>
+	private IEnumerator Jump()
+	{
+		float impulse = 0;
+		while(true)
+		{
+			impulse = Mathf.Lerp(impulse, _jumpImpulse, 0.1f);
+			if(impulse < _jumpImpulse/2.45f)
+			{
+				gameObject.rigidbody.AddForce(new Vector3(0, impulse, 0), ForceMode.Impulse);
+				yield return null;
+			}
+			else
+			{
+				break;
+			}
+		}
 	}
 
     private void OnCollisionEnter(Collision otherObject)
