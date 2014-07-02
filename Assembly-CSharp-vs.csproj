@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\Input\Controller.cs" />
      <Compile Include="Assets\Scripts\Input\IButton.cs" />
      <Compile Include="Assets\Scripts\Input\Xbox360Controller.cs" />
+     <Compile Include="Assets\Scripts\Level\LevelCreator.cs" />
      <Compile Include="Assets\Scripts\Player Controller\PlayerController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
