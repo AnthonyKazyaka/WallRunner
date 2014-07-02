@@ -177,17 +177,18 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter(Collision otherObject)
     {
         Debug.Log("Collision enter");
-		_isAirborne = false;
+		if (otherObject.gameObject.tag == "Wall" && !_wallLeaveTimerActive && _isAirborne)
+		{
+			_wallID = otherObject.gameObject.GetInstanceID();
+			_isWallRunning = true;
+			Debug.Log("Gravity removed");
+			gameObject.rigidbody.useGravity = false;
+		}
+		else
+			_isAirborne = false;
         _canUseDoubleJump = true;
 
-        if (otherObject.gameObject.tag == "Wall" && !_wallLeaveTimerActive)
-        {
-			_isAirborne = true;
-            _wallID = otherObject.gameObject.GetInstanceID();
-            _isWallRunning = true;
-			Debug.Log("Gravity removed");
-            gameObject.rigidbody.useGravity = false;
-        }
+       
 
         _lastContactPoint = otherObject.contacts[0];
     }
