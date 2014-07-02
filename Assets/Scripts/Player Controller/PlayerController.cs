@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
 	private int _wallLeaveTimer = 0;
 
-	private int _wallLeaveTime = 10;
+	private int _wallLeaveTime = 20;
 
 	private bool _wallLeaveTimerActive = false;
 
