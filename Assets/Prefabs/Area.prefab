@@ -443,7 +443,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 15.4899998, y: 35.9900017, z: 1}
+  m_Size: {x: 54.7999992, y: 103.400002, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &19800000
 ParticleSystem:
@@ -962,12 +962,12 @@ ParticleSystem:
           inSlope: 0
           outSlope: 0
           tangentMode: 0
-        - time: .239263773
-          value: -.945454478
+        - time: .315950871
+          value: -.916363597
           inSlope: 0
           outSlope: 0
           tangentMode: 0
-        - time: .325153351
+        - time: .536809802
           value: .963636398
           inSlope: 8.26855967e-07
           outSlope: 8.26855967e-07
