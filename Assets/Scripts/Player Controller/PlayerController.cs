@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
 	    {
 	        _currentLateralSpeed = MAX_LATERAL_SPEED * Gamepad.LeftThumbstickX; // * Time.deltaTime;
 	    }
-	    else if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0.0f)
+	    else if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f)
 	    {
 	        _currentLateralSpeed = MAX_LATERAL_SPEED * Input.GetAxis("Horizontal"); // * Time.deltaTime;
 	    }
@@ -117,6 +117,7 @@ public class PlayerController : MonoBehaviour
 				Debug.Log("Gravity enabled");
 				gameObject.rigidbody.useGravity = true;
 				_wallLeaveTimerActive = true;
+				gameObject.rigidbody.velocity = Vector3.zero;
                 gameObject.rigidbody.AddForce((new Vector3(0,_jumpImpulse,0) + _jumpImpulse/3 * _lastContactPoint.normal), ForceMode.Impulse);
             }
 	    }
