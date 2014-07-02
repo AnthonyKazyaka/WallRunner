@@ -41,6 +41,12 @@ public class PlayerController : MonoBehaviour
 
     private int _wallID = 0;
 
+	private int _wallLeaveTimer = 0;
+
+	private int _wallLeaveTime = 10;
+
+	private bool _wallLeaveTimerActive = false;
+
     private void Awake()
     {
         _currentForwardSpeed = _minimumForwardSpeed;
@@ -54,6 +60,16 @@ public class PlayerController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if(_wallLeaveTimerActive)
+		{
+			_wallLeaveTimer++;
+			if(_wallLeaveTimer > _wallLeaveTime)
+			{
+				_wallLeaveTimerActive = false;
+				_wallLeaveTimer = 0;
+			}
+		}
+
 	    if (!GameManager.Instance.IsPaused) ;
 
 	    if (Mathf.Abs(Gamepad.LeftThumbstickY) > 0.0f)
@@ -95,7 +111,13 @@ public class PlayerController : MonoBehaviour
 	        }
 	        if (_isWallRunning)
 	        {
-                gameObject.rigidbody.AddForce(5 * (new Vector3(0, 1, 0) + 2 * _lastContactPoint.normal), ForceMode.Impulse);
+				_isAirborne = true;
+				_isWallRunning = false;
+				_timeWallRunning = 0.0f;
+				Debug.Log("Gravity enabled");
+				gameObject.rigidbody.useGravity = true;
+				_wallLeaveTimerActive = true;
+                gameObject.rigidbody.AddForce((new Vector3(0,_jumpImpulse,0) + _jumpImpulse/3 * _lastContactPoint.normal), ForceMode.Impulse);
             }
 	    }
 	    if (!_isAirborne && Input.GetKeyDown(KeyCode.Space))
@@ -110,10 +132,15 @@ public class PlayerController : MonoBehaviour
 	        _timeWallRunning += Time.deltaTime;
 	    }
 
-        if (_timeWallRunning >= 2.0f)
+        if (_timeWallRunning >= 300000.0f)
         {
+			_isAirborne = true;
+			Debug.Log("fail");
             _isWallRunning = false;
             _timeWallRunning = 0.0f;
+			Debug.Log("Gravity enabled");
+			gameObject.rigidbody.useGravity = true;
+			_wallLeaveTimerActive = true;
             gameObject.rigidbody.AddForce(_lastContactPoint.normal, ForceMode.Impulse);
         }
 
@@ -149,27 +176,34 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter(Collision otherObject)
     {
         Debug.Log("Collision enter");
-        _isAirborne = false;
+		_isAirborne = false;
         _canUseDoubleJump = true;
 
-        if (otherObject.gameObject.tag == "Wall")
+        if (otherObject.gameObject.tag == "Wall" && !_wallLeaveTimerActive)
         {
+			_isAirborne = true;
             _wallID = otherObject.gameObject.GetInstanceID();
             _isWallRunning = true;
+			Debug.Log("Gravity removed");
             gameObject.rigidbody.useGravity = false;
         }
 
         _lastContactPoint = otherObject.contacts[0];
     }
 
+	/// <summary>
+	/// Raises the collision exit event.
+	/// </summary>
+	/// <param name="otherObject">Other object.</param>
     private void OnCollisionExit(Collision otherObject)
     {
-        if (otherObject.gameObject.tag == "Wall")
+		// will not work. collision exits all the time, not reliable
+        /*if (otherObject.gameObject.tag == "Wall")
         {
             _isWallRunning = false;
             _timeWallRunning = 0.0f;
             gameObject.rigidbody.useGravity = true;
-        }
+        }*/
     }
 
     private void OnCollisionStay(Collision otherObject)
