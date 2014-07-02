@@ -135,14 +135,18 @@ public class PlayerController : MonoBehaviour
 	    {
 			Vector3 v = rigidbody.velocity;
 			v.x = 0;
-
-			// change this to be a curvy path
 			v.y = 0;
 			rigidbody.velocity = v;
+
+			Vector3 v2 = transform.position;
+			// curvy path
+			v2.y = (float)Math.Sin(_timeWallRunning*4)/6 + v2.y;
+			transform.position = v2;
+
 	        _timeWallRunning += Time.deltaTime;
 	    }
 
-        if (_timeWallRunning >= 0.5f)
+        if (_timeWallRunning >= 1f)
         {
 			_isAirborne = true;
 			Debug.Log("fail");
