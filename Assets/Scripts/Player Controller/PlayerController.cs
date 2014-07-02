@@ -90,14 +90,17 @@ public class PlayerController : MonoBehaviour
             _currentForwardSpeed = _maximumForwardSpeed;
         }
 
-	    if (Mathf.Abs(Gamepad.LeftThumbstickX) > 0.0f)
+		if (Mathf.Abs(Gamepad.LeftThumbstickX) > 0.1f && !_isWallRunning)
 	    {
 	        _currentLateralSpeed = MAX_LATERAL_SPEED * Gamepad.LeftThumbstickX; // * Time.deltaTime;
 	    }
-	    else if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f)
+	    else if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0.1f && !_isWallRunning)
 	    {
+			// for now, must not let player move off wall run until reliable exit code
 	        _currentLateralSpeed = MAX_LATERAL_SPEED * Input.GetAxis("Horizontal"); // * Time.deltaTime;
 	    }
+		else
+			_currentLateralSpeed = 0;
         //else
         //{
         //    _currentLateralSpeed -= (_currentLateralSpeed * _decelerationRate * Time.deltaTime);
@@ -130,18 +133,25 @@ public class PlayerController : MonoBehaviour
 
 	    if (_isWallRunning)
 	    {
+			Vector3 v = rigidbody.velocity;
+			v.x = 0;
+
+			// change this to be a curvy path
+			v.y = 0;
+			rigidbody.velocity = v;
 	        _timeWallRunning += Time.deltaTime;
 	    }
 
-        if (_timeWallRunning >= 300000.0f)
+        if (_timeWallRunning >= 0.5f)
         {
 			_isAirborne = true;
 			Debug.Log("fail");
             _isWallRunning = false;
             _timeWallRunning = 0.0f;
 			Debug.Log("Gravity enabled");
-			gameObject.rigidbody.useGravity = true;
 			_wallLeaveTimerActive = true;
+			gameObject.rigidbody.useGravity = true;
+
             gameObject.rigidbody.AddForce(_lastContactPoint.normal, ForceMode.Impulse);
         }
 
