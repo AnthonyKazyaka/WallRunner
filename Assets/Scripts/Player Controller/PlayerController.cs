@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     private bool _canUseDoubleJump = true;
 
     private bool _isWallRunning = false;
-    private float _timeWallRunning = 0.0f;
+    private float _timeWallRunning = 0.01f;
 
     private ContactPoint _lastContactPoint;
 
@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviour
 			_isAirborne = true;
 			Debug.Log("fail");
             _isWallRunning = false;
-            _timeWallRunning = 0.0f;
+            _timeWallRunning = 0.01f;
 			Debug.Log("Gravity enabled");
 			_wallLeaveTimerActive = true;
 			gameObject.rigidbody.useGravity = true;
