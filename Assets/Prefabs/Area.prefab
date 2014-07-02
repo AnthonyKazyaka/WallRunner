@@ -814,15 +814,15 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 2013265919
         key1:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 553648127
         key2:
           serializedVersion: 2
           rgba: 0
@@ -850,7 +850,7 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 65535
+        atime1: 26214
         atime2: 0
         atime3: 0
         atime4: 0
